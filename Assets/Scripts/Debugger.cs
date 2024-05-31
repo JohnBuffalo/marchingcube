@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace MDH.MarchingCube
@@ -46,6 +47,24 @@ namespace MDH.MarchingCube
                 var vertex = grid.vertices[j];
                 if(vertex.active)
                     Gizmos.DrawSphere(vertex.worldPosition, 0.05f);
+            }
+        }
+
+        public void DrawCellMesh(Cell cell)
+        {
+            Gizmos.color = Color.white;
+            var triangles = cell.triangleList;
+            for (int i = 0; i < triangles.Count; i++)
+            {
+                var tri = triangles[i];
+                var verts = tri.vertex;
+                Gizmos.DrawLine(verts[0], verts[1]);   
+                Gizmos.DrawLine(verts[1], verts[2]);   
+                Gizmos.DrawLine(verts[2], verts[0]);
+                
+                Gizmos.DrawSphere(verts[0],0.05f);
+                Gizmos.DrawSphere(verts[1],0.05f);
+                Gizmos.DrawSphere(verts[2],0.05f);
             }
         }
     }

@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\Grid.cs" />
      <Compile Include="Assets\Scripts\Main.cs" />
      <Compile Include="Assets\Scripts\LookUpTable.cs" />
+     <Compile Include="Assets\Scripts\Triangle.cs" />
      <Compile Include="Assets\Scripts\Debugger.cs" />
      <Compile Include="Assets\Scripts\Vertex.cs" />
      <Compile Include="Assets\Scripts\Cell.cs" />

@@ -8,12 +8,8 @@ namespace MDH.MarchingCube
     {
         public Vector3 worldPosition = Vector3.zero;
         public bool active = false;
+        public float isoLevel = 0f;
 
-        public Vertex(Vector3 wp)
-        {
-            worldPosition = wp;
-            active = false;
-        }
 
         public Vertex(float x, float y, float z)
         {
@@ -21,6 +17,11 @@ namespace MDH.MarchingCube
             worldPosition.y = y;
             worldPosition.z = z;
             active = false;
+        }
+
+        public void SetIsoLevel(float iso)
+        {
+            isoLevel = iso;
         }
     }
 }
