@@ -14,6 +14,7 @@ namespace MDH.MarchingCube
         public Vertex[] vertices = new Vertex[8]; //顶点
         public Vector3 position = Vector3.zero; //立方体中心的世界坐标
         public int cubeIndex;
+        public bool dirty = true;
 
         public Grid(Vector3 wp, int size)
         {
@@ -34,14 +35,14 @@ namespace MDH.MarchingCube
             cubeIndex = 0;
             for (int i = 0; i < 8; i++)
             {
-                Debug.LogError(vertices[i].isoLevel);
-                if (vertices[i].isoLevel < isoLevel)
+                // Debug.LogError(vertices[i].isoLevel);
+                if (vertices[i].active)
                 {
                     cubeIndex |= 1 << i;
                 }
             }
 
-            Debug.LogError(string.Format("{0} , {1} ",cubeIndex ,  Convert.ToString(cubeIndex,2)));
+            // Debug.LogError(string.Format("{0} , {1} ",cubeIndex ,  Convert.ToString(cubeIndex,2)));
         }
 
         public void SetIsoLevel()

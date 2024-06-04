@@ -16,6 +16,7 @@ namespace MDH.MarchingCube
         public int length = 20;
         public int height = 20;
         public float isoLevel = 10f;
+        public Cell CellPrefab;
         private List<Grid> grids = new List<Grid>();
         private List<Cell> cells = new List<Cell>();
         private Debugger debugger = new Debugger();
@@ -23,9 +24,12 @@ namespace MDH.MarchingCube
         private GameObject activeHandler;
         private GameObject unactiveHandler;
         private float ActiveEclipse = 0.01f;
-
+        private Transform root;
+        private Transform pool;
         private void Awake()
         {
+            root = GameObject.Find("root").transform;
+            pool = GameObject.Find("pool").transform;
             CreateHandlers();
             CreateGrids();
         }
@@ -43,7 +47,8 @@ namespace MDH.MarchingCube
                         var grid = new Grid(new Vector3(x, y, z), gridSize);
                         grid.SetIsoLevel();
                         grids.Add(grid);
-                        var cell = new Cell();
+                        var cellGo = Instantiate(CellPrefab, pool.transform);
+                        var cell = cellGo.GetComponent<Cell>();
                         cells.Add(cell);
                     }
                 }
@@ -63,12 +68,13 @@ namespace MDH.MarchingCube
                         !vertex.active)
                     {
                         vertex.active = true;
+                        grid.dirty = true;
                     }
 
-                    if (Vector3.Distance(vertex.worldPosition, unactiveHandler.transform.position) <= ActiveEclipse &&
-                        vertex.active)
+                    if (vertex.active &&Vector3.Distance(vertex.worldPosition, unactiveHandler.transform.position) <= ActiveEclipse)
                     {
                         vertex.active = false;
+                        grid.dirty = true;
                     }
                 }
             }
@@ -80,6 +86,8 @@ namespace MDH.MarchingCube
             for (int i = 0; i < grids.Count; i++)
             {
                 var grid = grids[i];
+                if(!grid.dirty) continue;
+                grid.dirty = false;
                 var cell = cells[i];
                 cell.Refresh();
                 //1.根据空间体素与等值面的关系计算cube的pattern
@@ -96,6 +104,15 @@ namespace MDH.MarchingCube
                     var p2 = vertPositions[LookUpTable.TriTable[cubeIndex, j+1]];
                     var p3 = vertPositions[LookUpTable.TriTable[cubeIndex, j+2]];
                     cell.AddTriangle(p1,p2,p3);
+                }
+                var cellValid = cell.SetMesh();
+                if (cellValid)
+                {
+                    cell.transform.SetParent(root);
+                }
+                else
+                {
+                    cell.transform.SetParent(pool);
                 }
             }
         }

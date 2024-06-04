@@ -52,15 +52,15 @@ namespace MDH.MarchingCube
 
         public void DrawCellMesh(Cell cell)
         {
-            Gizmos.color = Color.white;
+            Gizmos.color = Color.red;
             var triangles = cell.triangleList;
             for (int i = 0; i < triangles.Count; i++)
             {
                 var tri = triangles[i];
                 var verts = tri.vertex;
-                Gizmos.DrawLine(verts[0], verts[1]);   
-                Gizmos.DrawLine(verts[1], verts[2]);   
-                Gizmos.DrawLine(verts[2], verts[0]);
+                // Gizmos.DrawLine(verts[0], verts[1]);   
+                // Gizmos.DrawLine(verts[1], verts[2]);   
+                // Gizmos.DrawLine(verts[2], verts[0]);
                 
                 Gizmos.DrawSphere(verts[0],0.05f);
                 Gizmos.DrawSphere(verts[1],0.05f);
